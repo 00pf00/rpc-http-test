@@ -1,0 +1,6 @@
+.idea
+rpc.iml
+/client/target/
+/server/target/
+/client/client.iml
+/server/server.iml
