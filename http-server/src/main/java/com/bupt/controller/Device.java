@@ -9,6 +9,11 @@ public class Device {
     @GetMapping("/device")
     @ResponseBody
     public String GetDevice(){
+        try {
+            Thread.sleep(7*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return "abcd";
     }
 }

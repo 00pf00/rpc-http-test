@@ -1,0 +1,64 @@
+package com.bupt;
+
+
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class HttpClient {
+
+    public static void main(final String[] args) {
+        Integer count = new Integer(args[0]);
+        final AtomicInteger s = new AtomicInteger(0);
+        final AtomicInteger f = new AtomicInteger(0);
+        final CountDownLatch countDownLatch = new CountDownLatch(count);
+        final CountDownLatch wait = new CountDownLatch(count);
+        ExecutorService es = Executors.newFixedThreadPool(count);
+        for (int i = 0; i < count; i++) {
+            es.submit(new Runnable() {
+                @Override
+                public void run() {
+                    //new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS); 设置超时时间
+                    OkHttpClient ht = new OkHttpClient();
+                    int count = ht.connectTimeoutMillis();
+                    System.out.println(count);
+                    Request req = new Request.Builder().url("http://" + args[1] + ":8080/device").method("GET", null).build();
+                    Call call = ht.newCall(req);
+                    try {
+                        countDownLatch.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        Response resp = call.execute();
+                        if (resp.isSuccessful()) {
+                            s.incrementAndGet();
+                        } else {
+                            f.incrementAndGet();
+                        }
+                    } catch (IOException e) {
+                        f.incrementAndGet();
+                    }
+                    wait.countDown();
+                }
+            });
+            countDownLatch.countDown();
+        }
+        try {
+            wait.await();
+            System.out.println(s.get());
+            System.out.println(f.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
