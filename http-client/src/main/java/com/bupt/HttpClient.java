@@ -1,21 +1,30 @@
 package com.bupt;
 
 
+import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HttpClient {
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static void main(final String[] args) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         OkHttpClient ht = new OkHttpClient();
-        Request req = new Request.Builder().url("http://127.0.0.1:8080/device").method("GET", null).build();
+//        Request req = new Request.Builder().url("http://127.0.0.1:8080/device").method("GET", null).build();
+        JSONObject jobj = new JSONObject();
+        jobj.put("id", "b");
+        jobj.put("name", "B");
+//        DeviceInfoProto.DeviceInfo.Builder builder = DeviceInfoProto.DeviceInfo.newBuilder();
+//        builder.setId("b");
+//        builder.setName("B");
+//        DeviceInfoProto.DeviceInfo reqs = builder.build();
+//        JSONObject jobj = JSONObject.;
+//        System.out.println(reqs);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jobj.toJSONString());
+        Request req = new Request.Builder().url("http://127.0.0.1:8080/json").method("POST", body).build();
         Call call = ht.newCall(req);
         call.enqueue(new Callback() {
             @Override
@@ -25,10 +34,11 @@ public class HttpClient {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                    if (response.isSuccessful()){
-                        System.out.println("请求返回!");
-                    }
-                    countDownLatch.countDown();
+                if (response.isSuccessful()) {
+                    System.out.println(response.body().string());
+                    System.out.println("请求返回!");
+                }
+                countDownLatch.countDown();
             }
         });
         System.out.println("异步回调!");

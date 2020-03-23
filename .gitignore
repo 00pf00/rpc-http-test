@@ -1,6 +1,5 @@
 .idea
-rpc.iml
-/client/target/
-/server/target/
-/client/client.iml
-/server/server.iml
+.DS_Store
+http-client/.DS_Store
+http-client/target
+http-server/target
