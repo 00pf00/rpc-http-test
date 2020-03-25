@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 public class HttpClient {
@@ -15,7 +16,7 @@ public class HttpClient {
         OkHttpClient ht = new OkHttpClient();
 //        Request req = new Request.Builder().url("http://127.0.0.1:8080/device").method("GET", null).build();
         JSONObject jobj = new JSONObject();
-        jobj.put("id", "b");
+        jobj.put("id", UUID.randomUUID().toString());
         jobj.put("name", "B");
 //        DeviceInfoProto.DeviceInfo.Builder builder = DeviceInfoProto.DeviceInfo.newBuilder();
 //        builder.setId("b");
@@ -24,7 +25,7 @@ public class HttpClient {
 //        JSONObject jobj = JSONObject.;
 //        System.out.println(reqs);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jobj.toJSONString());
-        Request req = new Request.Builder().url("http://127.0.0.1:8080/json").method("POST", body).build();
+        Request req = new Request.Builder().url("http://127.0.0.1:8100/api/v1/info/saveDevice").method("POST", body).build();
         Call call = ht.newCall(req);
         call.enqueue(new Callback() {
             @Override
