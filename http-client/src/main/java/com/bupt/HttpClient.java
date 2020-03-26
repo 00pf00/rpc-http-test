@@ -16,7 +16,8 @@ public class HttpClient {
         OkHttpClient ht = new OkHttpClient();
 //        Request req = new Request.Builder().url("http://127.0.0.1:8080/device").method("GET", null).build();
         JSONObject jobj = new JSONObject();
-        jobj.put("id", UUID.randomUUID().toString());
+
+//      jobj.put("id", UUID.randomUUID().toString());
         jobj.put("name", "B");
         jobj.put("tenantId",10);
 //        DeviceInfoProto.DeviceInfo.Builder builder = DeviceInfoProto.DeviceInfo.newBuilder();
