@@ -18,7 +18,7 @@ public class HttpClient {
         JSONObject jobj = new JSONObject();
 
 //      jobj.put("id", UUID.randomUUID().toString());
-        jobj.put("name", "J");
+        jobj.put("name", UUID.randomUUID().toString());
         jobj.put("tenantId",60);
 //        DeviceInfoProto.DeviceInfo.Builder builder = DeviceInfoProto.DeviceInfo.newBuilder();
 //        builder.setId("b");
