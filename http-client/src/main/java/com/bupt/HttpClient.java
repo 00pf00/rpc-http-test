@@ -12,7 +12,7 @@ public class HttpClient {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static void main(final String[] args) {
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final CountDownLatch countDownLatch = new CountDownLatch(2);
         Integer tenantId = 70;
         OkHttpClient ht = new OkHttpClient();
 //        Request req = new Request.Builder().url("http://127.0.0.1:8080/device").method("GET", null).build();
