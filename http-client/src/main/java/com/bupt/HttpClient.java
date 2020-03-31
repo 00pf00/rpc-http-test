@@ -47,7 +47,7 @@ public class HttpClient {
         });
         OkHttpClient rht = new OkHttpClient();
         Request rreq = new Request.Builder().url("http://127.0.0.1:8100/api/v1/info/allDevice/"+tenantId).method("POST", body).build();
-        Call rcall = ht.newCall(req);
+        Call rcall = rht.newCall(rreq);
         rcall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
