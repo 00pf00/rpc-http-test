@@ -13,7 +13,7 @@ public class HttpClient {
 
     public static void main(final String[] args) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        Integer tenantId = 60;
+        Integer tenantId = 2;
         OkHttpClient ht = new OkHttpClient();
 ////        Request req = new Request.Builder().url("http://127.0.0.1:8080/device").method("GET", null).build();
 //        JSONObject jobj = new JSONObject();
