@@ -46,7 +46,7 @@ public class HttpClient {
 //            }
 //        });
         OkHttpClient rht = new OkHttpClient();
-        Request rreq = new Request.Builder().url("http://127.0.0.1:8100/api/v1/info/allDevice/"+tenantId).method("POST", body).build();
+        Request rreq = new Request.Builder().url("http://127.0.0.1:8100/api/v1/info/allDevice/"+tenantId).method("GET",null ).build();
         Call rcall = rht.newCall(rreq);
         rcall.enqueue(new Callback() {
             @Override
