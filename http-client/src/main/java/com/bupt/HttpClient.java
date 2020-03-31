@@ -12,14 +12,15 @@ public class HttpClient {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static void main(final String[] args) {
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final CountDownLatch countDownLatch = new CountDownLatch(2);
+        Integer tenantId = 60;
         OkHttpClient ht = new OkHttpClient();
 //        Request req = new Request.Builder().url("http://127.0.0.1:8080/device").method("GET", null).build();
         JSONObject jobj = new JSONObject();
 
 //      jobj.put("id", UUID.randomUUID().toString());
         jobj.put("name", UUID.randomUUID().toString());
-        jobj.put("tenantId",60);
+        jobj.put("tenantId",tenantId);
 //        DeviceInfoProto.DeviceInfo.Builder builder = DeviceInfoProto.DeviceInfo.newBuilder();
 //        builder.setId("b");
 //        builder.setName("B");
@@ -39,7 +40,25 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     System.out.println(response.body().string());
-                    System.out.println("请求返回!");
+                    System.out.println("step 1 : 请求返回!");
+                }
+                countDownLatch.countDown();
+            }
+        });
+        OkHttpClient rht = new OkHttpClient();
+        Request rreq = new Request.Builder().url("http://127.0.0.1:8100/api/v1/info/allDevice/"+tenantId).method("POST", body).build();
+        Call rcall = ht.newCall(req);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    System.out.println(response.body().string());
+                    System.out.println("step 2 : 请求返回!");
                 }
                 countDownLatch.countDown();
             }
